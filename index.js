@@ -21,6 +21,9 @@ async function run() {
         console.log('SquaDrone Server is running')
         const database = client.db("SquaDrone")
         const products = database.collection("products")
+        const order = database.collection("order")
+        const users = database.collection("users")
+        const review = database.collection("review")
 
         //get products
         app.get('/products', async (req, res) => {
@@ -32,10 +35,54 @@ async function run() {
         //get single products
         app.get('/products/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id:ObjectId(id)}
+            const query = { _id: ObjectId(id) }
             const result = await products.findOne(query)
             res.json(result)
         })
+
+        //post oder single product 
+        app.post('/order', async (req, res) => {
+            const doc = req.body
+            const result = await order.insertOne(doc)
+            res.json(result)
+        })
+
+        //post user data
+        app.post('/users', async (req, res) => {
+            const user = req.body
+            const result = await users.insertOne(user)
+            console.log(result)
+            res.json(result)
+        })
+
+        //get all order
+        app.get('/order', async (req, res) => {
+            const cursor = order.find({})
+            const ordersall = await cursor.toArray();
+            res.json(ordersall)
+        })
+
+        //delete order
+        app.delete('/order/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await order.deleteOne(query)
+            res.json(result)
+        })
+
+        //post oder single product 
+            app.post('/review', async (req, res) => {
+            const doc = req.body
+            const result = await review.insertOne(doc)
+            res.json(result)
+        })
+
+        //  //get products
+        //     app.get('/reviews', async (req, res) => {
+        //     const cursor = review.find({})
+        //     const reviewOrder = await cursor.toArray();
+        //     res.json(reviewOrder)
+        // })
     }
     finally {
         // await client.close()
