@@ -78,11 +78,11 @@ async function run() {
         })
 
         //  //get products
-        //     app.get('/reviews', async (req, res) => {
-        //     const cursor = review.find({})
-        //     const reviewOrder = await cursor.toArray();
-        //     res.json(reviewOrder)
-        // })
+            app.get('/reviews', async (req, res) => {
+            const cursor = review.find({})
+            const reviewOrder = await cursor.toArray();
+            res.json(reviewOrder)
+        })
     }
     finally {
         // await client.close()
